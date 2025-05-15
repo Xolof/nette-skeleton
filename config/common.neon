@@ -9,9 +9,9 @@ application:
 
 
 database:
-	dsn: 'sqlite::memory:'
-	user:
-	password:
+	dsn: 'mysql:host=mysql;dbname=nettedb'
+	user: 'nette'
+	password: 'pass'
 
 
 latte:
