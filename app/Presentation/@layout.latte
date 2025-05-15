@@ -5,13 +5,15 @@
 	<meta name="viewport" content="width=device-width">
 
 	<title>{ifset title}{include title|stripHtml} | {/ifset}Nette Web</title>
+  <link rel="stylesheet" href="{$basePath}/css/picnic.min.css">
+  <link rel="stylesheet" href="{$basePath}/css/styles.css">
 </head>
 
 <body>
 	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
-
-	{include content}
-
+  <main class="container">
+    {include content}
+  </main>
 	{block scripts}
 	<script src="https://unpkg.com/nette-forms@3"></script>
 	{/block}
