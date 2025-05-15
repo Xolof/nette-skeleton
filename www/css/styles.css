@@ -1,0 +1,7 @@
+.container {
+  display: block;
+  margin: 0 auto;
+  max-width: 968px;
+  padding: 0 1em;
+}
+
