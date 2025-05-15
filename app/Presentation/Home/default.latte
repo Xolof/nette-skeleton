@@ -1,7 +1,6 @@
 {block content}
   <h1>Nette Blog</h1>
-  {foreach $posts as $post}
-    <div class="post card">
+    <div n:foreach="$posts as $post" class="post card">
       <header>
         <h2>{$post->title}</h2>
       </header>
@@ -12,5 +11,4 @@
         <div class="date">{$post->created_at|date:'Y-m-d H:i'}</div>
       </footer>
 	  </div>
-  {/foreach}
 {/block}
