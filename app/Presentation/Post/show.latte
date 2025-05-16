@@ -7,7 +7,7 @@
     <div>{$post->content}</div>
 	</section>
   <footer>
-    <a n:href="Edit:edit $post->id">Edit this post</a>
+    <a n:if="$user->isLoggedIn()" n:href="Edit:edit $post->id">Edit this post</a>
     <div class="date">{$post->created_at|date:'Y-m-d H:i'}</div>
 
     <h1>Post new comment</h1>

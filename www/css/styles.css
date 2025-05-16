@@ -1,5 +1,6 @@
 :root {
   --spacing-md: 1em;
+  --spacing-xl: 2em;
 }
 
 .container {
@@ -20,3 +21,9 @@
   color: #155724;
 }
 
+ul.error {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+  padding: var(--spacing-md) var(--spacing-xl);
+}

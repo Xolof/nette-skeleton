@@ -11,6 +11,14 @@
 
 <body>
 	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+   <ul class="navig">
+  	<li><a n:href="Home:">Home</a></li>
+  	{if $user->isLoggedIn()}
+  		<li><a n:href="Sign:out">Sign out</a></li>
+  	{else}
+		  <li><a n:href="Sign:in">Sign in</a></li>
+	  {/if}
+  </ul>
   <main class="container">
     {include content}
   </main>

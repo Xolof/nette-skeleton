@@ -25,3 +25,7 @@ di:
 	export:
 		parameters: no
 		tags: no
+
+security:
+	users:
+		admin: secret  # Hardcoded user and password for development purposes.

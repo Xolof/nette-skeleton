@@ -10,6 +10,15 @@ final class EditPresenter extends Nette\Application\UI\Presenter
 		private Nette\Database\Explorer $database,
 	) {}
 
+  public function startup(): void
+  {
+	  parent::startup();
+
+	  if (!$this->getUser()->isLoggedIn()) {
+		  $this->redirect('Sign:in');
+	  }
+  }
+
   protected function createComponentPostForm(): Form
   {
     $form = new Form;
