@@ -9,7 +9,10 @@
 	</section>
   <footer>
 
-    <a n:if="$user->isLoggedIn()" n:href="Edit:edit $post->id">Edit this post</a>
+    <p n:if="$user->isLoggedIn()">
+      <a n:href="Edit:edit $post->id">Edit this post</a>
+      {*<a n:href="Delete:delete $post->id">Delete this post</a>*}
+    </p>
 
     <h1>Post new comment</h1>
     {control commentForm}
