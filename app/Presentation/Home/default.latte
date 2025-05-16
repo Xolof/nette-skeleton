@@ -1,5 +1,6 @@
 {block content}
   <h1>Nette Blog</h1>
+    <p><a n:href="Edit:add">Add a post</a></p>
     <div n:foreach="$posts as $post" class="post card">
       <header>
         <h2><a n:href="Post:show $post->id">{$post->title}</a></h2>

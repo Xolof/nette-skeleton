@@ -7,6 +7,7 @@
     <div>{$post->content|truncate:256}</div>
 	</section>
   <footer>
+    <a n:href="Edit:edit $post->id">Edit this post</a>
     <div class="date">{$post->created_at|date:'Y-m-d H:i'}</div>
 
     <h1>Post new comment</h1>
