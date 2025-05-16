@@ -45,11 +45,18 @@ ul.error {
 }
 
 #frm-commentForm table,
+#frm-deleteForm table,
 #frm-postForm table {
   width: 100%;
 }
 
-#frm-postForm-content {
+#frm-postForm-content,
+#frm-deleteForm-content {
   min-height: 400px;
 }
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #fff;
 }
