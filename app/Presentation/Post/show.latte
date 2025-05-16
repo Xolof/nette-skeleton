@@ -4,7 +4,7 @@
     <h1 n:block="title">{$post->title}</h1>
   </header>
   <section>
-    <div>{$post->content|truncate:256}</div>
+    <div>{$post->content}</div>
 	</section>
   <footer>
     <a n:href="Edit:edit $post->id">Edit this post</a>
