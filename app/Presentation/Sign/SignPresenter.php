@@ -28,12 +28,12 @@ final class SignPresenter extends Presenter
   private function signInFormSucceeded(Form $form, \stdClass $data): void
   {
 	    try {
-		      $this->getUser()->login($data->username, $data->password);
-  		    $this->redirect('Home:');
+          $this->getUser()->login($data->username, $data->password);
+          $this->redirect('Home:');
   	  } catch (Nette\Security\AuthenticationException $e) {
 	  	    $form->addError('Incorrect username or password.');
 	    }
-  }  
+  }
 
     public function actionOut(): void
     {
@@ -42,4 +42,3 @@ final class SignPresenter extends Presenter
         $this->redirect('Home:');
     }
 }
-

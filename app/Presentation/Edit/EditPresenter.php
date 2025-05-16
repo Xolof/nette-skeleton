@@ -40,7 +40,7 @@ final class EditPresenter extends Nette\Application\UI\Presenter
   {
     $id = $this->getParameter('id');
 
-   	if ($id) {
+    if ($id) {
 		  $post = $this->database
 			  ->table('posts')
 			  ->get($id);
@@ -50,23 +50,22 @@ final class EditPresenter extends Nette\Application\UI\Presenter
 			  ->table('posts')
 			  ->insert($data);
     }
-   
+
     $this->flashMessage('Post published successfully.', 'success');
     $this->redirect('Post:show', $post->id);
   }
 
   public function renderEdit(int $id): void
   {
-  	$post = $this->database
-  		->table('posts')
+    $post = $this->database
+      ->table('posts')
   		->get($id);
-  
+
   	if (!$post) {
   		$this->error('Post not found');
   	}
-  
+
   	$this->getComponent('postForm')
   		->setDefaults($post->toArray());
   }
 }
-

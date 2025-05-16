@@ -9,7 +9,7 @@ final class PostFacade
   public function __construct(
     private Nette\Database\Explorer $database
   ) {}
-  
+
   public function getPublicArticles()
   {
     return $this->database
@@ -18,4 +18,3 @@ final class PostFacade
       ->order('created_at DESC');
   }
 }
-
