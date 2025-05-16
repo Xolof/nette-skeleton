@@ -23,5 +23,37 @@ final class PostPresenter extends Nette\Application\UI\Presenter
 
     $this->template->post = $post;
 	}
+
+  protected function createComponentCommentForm(): Form
+  {
+    $form = new Form;
+
+    $form->addText('name', 'Your name:')
+      ->setRequired('Please enter your name.');
+
+    $form->addEmail('email', 'Email:');
+
+    $form->addTextArea('content', 'Comment:')
+      ->setRequired('Please enter a comment.');
+
+    $form->addSubmit('send', 'Add Comment');
+
+    $form->onSuccess[] = $this->commentFormSucceeded(...);
+
+    return $form;
+  }
+
+  private function commentFormSucceeded(\stdClass $data): void
+  {
+    $this->database->table('comments')->insert([
+      'post_id' => $this->getParameter('id'),
+      'name' => $data->name,
+      'content' => $data->content,
+      'email' => $data->email
+    ]);
+
+    $this->flashMessage('Comment added successfully.', 'success');
+    $this->redirect('this');
+  }
 }
 
