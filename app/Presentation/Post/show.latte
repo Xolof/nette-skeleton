@@ -6,8 +6,6 @@
   <section>
     <p class="date">{$post->created_at|date:'Y-m-d H:i'}</p>
     <div>{$post->content}</div>
-	</section>
-  <footer>
 
     <p n:if="$user->isLoggedIn()">
       <a n:href="Edit:edit $post->id">Edit this post</a>
@@ -28,5 +26,7 @@
         </article>
 	    {/foreach}
     </div>
+	</section>
+  <footer>
   </footer>
 {/block}
