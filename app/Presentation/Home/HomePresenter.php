@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\Presentation\Home;
 
 use Nette;
+use App\Model\PostFacade;
 
 final class HomePresenter extends Nette\Application\UI\Presenter
 {
-  	public function __construct(private Nette\Database\Explorer $database) {}
+    public function __construct(private PostFacade $postFacade) {}
 
     public function renderDefault(): void
     {
-	    $this->template->posts = $this->database
-		    ->table('posts')
-		    ->order('created_at DESC')
+	    $this->template->posts = $this->postFacade
+		    ->getPublicArticles()
 		    ->limit(5);
     }
 }
