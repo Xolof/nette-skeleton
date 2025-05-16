@@ -11,14 +11,24 @@
 
 <body>
 	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
-   <ul class="navig">
-  	<li><a n:href="Home:">Home</a></li>
-  	{if $user->isLoggedIn()}
-  		<li><a n:href="Sign:out">Sign out</a></li>
-  	{else}
-		  <li><a n:href="Sign:in">Sign in</a></li>
-	  {/if}
-  </ul>
+  <nav>
+    <a n:href="Home:" class="brand">
+      <img class="logo" src="/favicon.ico" />
+    </a>
+
+    <!-- responsive-->
+    <input id="bmenub" type="checkbox" class="show">
+    <label for="bmenub" class="burger pseudo button">&#8801;</label>
+
+    <div class="menu">
+      <a n:href="Home:">Home</a>
+        {if $user->isLoggedIn()}
+          <a n:href="Sign:out">Sign out</a>
+        {else}
+          <a n:href="Sign:in">Sign in</a>
+        {/if}
+    </div>
+  </nav>
   <main class="container">
     {include content}
   </main>
