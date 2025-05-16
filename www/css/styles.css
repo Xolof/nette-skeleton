@@ -62,3 +62,15 @@ ul.error {
 #frm-deleteForm dl dd {
   margin-inline-start: unset;
 }
+
+#frm-commentForm dl dd textarea,
+#frm-postForm dl dd textarea,
+#frm-editForm dl dd textarea,
+#frm-deleteForm dl dd textarea {
+  max-width: 100%;
+  min-width: 100%;
+}
+
+#frm-commentForm dl dd textarea {
+  min-height: 150px;
+}
