@@ -1,7 +1,22 @@
+:root {
+  --spacing-md: 1em;
+}
+
 .container {
   display: block;
   margin: 0 auto;
   max-width: 968px;
-  padding: 0 1em;
+  padding: 0 var(--spacing-md);
+}
+
+.flash {
+    padding: var(--spacing-md);
+    text-align: center;
+  }
+
+.flash.success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
 }
 
