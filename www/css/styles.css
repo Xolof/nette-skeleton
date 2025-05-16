@@ -60,3 +60,9 @@ ul.error {
   border-color: #dc3545;
   color: #fff;
 }
+
+#frm-postForm table tbody tr th,
+#frm-deleteForm table tbody tr th {
+  max-width: 90px;
+}
+
