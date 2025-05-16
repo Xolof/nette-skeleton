@@ -17,6 +17,7 @@ services:
       - "8080:8080"
     volumes:
       - .:/var/www
+    user: "1000:1000"
     depends_on:
       - mysql
     networks:
