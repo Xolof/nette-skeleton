@@ -42,6 +42,12 @@ final class PostPresenter extends Nette\Application\UI\Presenter
 
     $form->onSuccess[] = $this->commentFormSucceeded(...);
 
+    $renderer = $form->getRenderer();
+    $renderer->wrappers['controls']['container'] = 'dl';
+    $renderer->wrappers['pair']['container'] = null;
+    $renderer->wrappers['label']['container'] = 'dt';
+    $renderer->wrappers['control']['container'] = 'dd';
+
     return $form;
   }
 

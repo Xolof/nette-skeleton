@@ -22,6 +22,12 @@ final class SignPresenter extends Presenter
 
         $form->onSuccess[] = $this->signInFormSucceeded(...);
 
+        $renderer = $form->getRenderer();
+        $renderer->wrappers['controls']['container'] = 'dl';
+        $renderer->wrappers['pair']['container'] = null;
+        $renderer->wrappers['label']['container'] = 'dt';
+        $renderer->wrappers['control']['container'] = 'dd';
+
         return $form;
     }
 

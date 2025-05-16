@@ -44,12 +44,6 @@ ul.error {
   font-size: 2.5em;
 }
 
-#frm-commentForm table,
-#frm-deleteForm table,
-#frm-postForm table {
-  width: 100%;
-}
-
 #frm-postForm-content,
 #frm-deleteForm-content {
   min-height: 400px;
@@ -61,8 +55,10 @@ ul.error {
   color: #fff;
 }
 
-#frm-postForm table tbody tr th,
-#frm-deleteForm table tbody tr th {
-  max-width: 90px;
+#frm-signInForm dl dd,
+#frm-commentForm dl dd,
+#frm-postForm dl dd,
+#frm-editForm dl dd,
+#frm-deleteForm dl dd {
+  margin-inline-start: unset;
 }
-

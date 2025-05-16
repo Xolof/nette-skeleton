@@ -23,7 +23,7 @@ final class EditPresenter extends Nette\Application\UI\Presenter
   {
     $form = new Form;
 
-    $form->addText('title', 'The title of the post:')
+    $form->addText('title', 'Title:')
       ->setRequired('Please enter a title.');
 
     $form->addTextArea('content', 'Content:')
@@ -32,6 +32,12 @@ final class EditPresenter extends Nette\Application\UI\Presenter
     $form->addSubmit('send', 'Save and publish');
 
     $form->onSuccess[] = $this->postFormSucceeded(...);
+
+    $renderer = $form->getRenderer();
+    $renderer->wrappers['controls']['container'] = 'dl';
+    $renderer->wrappers['pair']['container'] = null;
+    $renderer->wrappers['label']['container'] = 'dt';
+    $renderer->wrappers['control']['container'] = 'dd';
 
     return $form;
   }

@@ -24,13 +24,19 @@ final class DeletePresenter extends Nette\Application\UI\Presenter
   {
     $form = new Form;
 
-    $form->addText('title', 'The title of the post:')->setDisabled();
+    $form->addText('title', 'Title:')->setDisabled();
 
     $form->addTextArea('content', 'Content:')->setDisabled();
 
     $form->addSubmit('send', 'Yes, destroy this post now')->setHtmlAttribute('class', 'btn-danger');
 
     $form->onSuccess[] = $this->deleteFormSucceeded(...);
+
+    $renderer = $form->getRenderer();
+    $renderer->wrappers['controls']['container'] = 'dl';
+    $renderer->wrappers['pair']['container'] = null;
+    $renderer->wrappers['label']['container'] = 'dt';
+    $renderer->wrappers['control']['container'] = 'dd';
 
     return $form;
   }
