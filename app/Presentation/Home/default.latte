@@ -2,7 +2,7 @@
   <h1>Nette Blog</h1>
     <div n:foreach="$posts as $post" class="post card">
       <header>
-        <h2>{$post->title}</h2>
+        <h2><a n:href="Post:show $post->id">{$post->title}</a></h2>
       </header>
       <section>
        <div>{$post->content|truncate:256}</div>
