@@ -17,6 +17,10 @@
   border-top: 1px solid #a9a9a9;
 }
 
+.footer p {
+  text-align: center;
+}
+
 .flash {
     padding: var(--spacing-md);
     text-align: center;
