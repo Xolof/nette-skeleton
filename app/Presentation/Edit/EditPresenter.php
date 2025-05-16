@@ -20,7 +20,7 @@ final class EditPresenter extends Nette\Application\UI\Presenter
     $form->addTextArea('content', 'Content:')
       ->setRequired('Please enter some content.');
 
-    $form->addSubmit('send', 'Add Post');
+    $form->addSubmit('send', 'Save and publish');
 
     $form->onSuccess[] = $this->postFormSucceeded(...);
 
