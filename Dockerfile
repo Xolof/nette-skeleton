@@ -11,6 +11,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Add Composer to the PATH
 ENV PATH="$PATH:/usr/local/bin"
 
+RUN composer create-project nette/code-checker
+
 # Create a group and user
 RUN addgroup -S mumingroup
 RUN adduser -S -u 1000 mumin -G mumingroup
