@@ -17,7 +17,12 @@
     <h2>Comments</h2>
 
     <div class="comments">
-	    {foreach $comments as $comment}
+
+      {if $comments->count() === 0}
+        <p>There are no comments yet.</p>
+      {/if}
+
+      {foreach $comments as $comment}
         <article>
 		      <p><b><a href="mailto:{$comment->email}" n:tag-if="$comment->email">
 			    {$comment->name}
