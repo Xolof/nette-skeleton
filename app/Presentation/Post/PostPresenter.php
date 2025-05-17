@@ -6,62 +6,64 @@ use Nette\Application\UI\Form;
 
 final class PostPresenter extends Nette\Application\UI\Presenter
 {
-	public function __construct(
-		private Nette\Database\Explorer $database,
-	) {
-	}
-
-	public function renderShow(int $id): void
-	{
-		$post = $this->database
-			->table('posts')
-      ->get($id);
-
-    if (!$post) {
-      $this->error('Post not found');
+    public function __construct(
+        private Nette\Database\Explorer $database,
+    ) {
     }
 
-    $this->template->post = $post;
-    $this->template->comments = $post->related('comments')
-      ->order('created_at');
-	}
+    public function renderShow(int $id): void
+    {
+        $post = $this->database
+            ->table('posts')
+            ->get($id);
 
-  protected function createComponentCommentForm(): Form
-  {
-    $form = new Form;
+        if (!$post) {
+            $this->error('Post not found');
+        }
 
-    $form->addText('name', 'Your name:')
-      ->setRequired('Please enter your name.');
+        $this->template->post = $post;
+        $this->template->comments = $post->related('comments')
+            ->order('created_at');
+    }
 
-    $form->addEmail('email', 'Email:');
+    protected function createComponentCommentForm(): Form
+    {
+        $form = new Form;
 
-    $form->addTextArea('content', 'Comment:')
-      ->setRequired('Please enter a comment.');
+        $form->addText('name', 'Your name:')
+            ->setRequired('Please enter your name.');
 
-    $form->addSubmit('send', 'Add Comment');
+        $form->addEmail('email', 'Email:');
 
-    $form->onSuccess[] = $this->commentFormSucceeded(...);
+        $form->addTextArea('content', 'Comment:')
+            ->setRequired('Please enter a comment.');
 
-    $renderer = new Nette\Forms\Rendering\DefaultFormRenderer();
-    $form->setRenderer($renderer);
-    $renderer->wrappers['controls']['container'] = 'dl';
-    $renderer->wrappers['pair']['container'] = null;
-    $renderer->wrappers['label']['container'] = 'dt';
-    $renderer->wrappers['control']['container'] = 'dd';
+        $form->addSubmit('send', 'Add Comment');
 
-    return $form;
-  }
+        $form->onSuccess[] = $this->commentFormSucceeded(...);
 
-  private function commentFormSucceeded(\stdClass $data): void
-  {
-    $this->database->table('comments')->insert([
-      'post_id' => $this->getParameter('id'),
-      'name' => $data->name,
-      'content' => $data->content,
-      'email' => $data->email
-    ]);
+        $renderer = new Nette\Forms\Rendering\DefaultFormRenderer();
+        $form->setRenderer($renderer);
+        $renderer->wrappers['controls']['container'] = 'dl';
+        $renderer->wrappers['pair']['container'] = null;
+        $renderer->wrappers['label']['container'] = 'dt';
+        $renderer->wrappers['control']['container'] = 'dd';
 
-    $this->flashMessage('Comment added successfully.', 'success');
-    $this->redirect('this');
-  }
+        return $form;
+    }
+
+    private function commentFormSucceeded(\stdClass $data): void
+    {
+        $this->database->table('comments')->insert(
+            [
+                'post_id' => $this->getParameter('id'),
+                'name' => $data->name,
+                'content' => $data->content,
+                'email' => $data->email
+            ]
+        );
+
+        $this->flashMessage('Comment added successfully.', 'success');
+        $this->redirect('this');
+    }
 }
