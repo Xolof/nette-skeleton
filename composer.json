@@ -38,5 +38,12 @@
 		"allow-plugins": {
 			"symfony/thanks": true
 		}
-	}
+	},
+  "scripts": {
+    "test": "./tests.sh",
+    "post-install-cmd": [
+      "cp ./tests.sh .git/hooks/pre-commit"
+    ]
+  }
 }
+
