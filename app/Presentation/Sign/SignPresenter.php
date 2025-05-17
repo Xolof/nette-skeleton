@@ -35,6 +35,7 @@ final class SignPresenter extends Presenter
   {
 	    try {
           $this->getUser()->login($data->username, $data->password);
+          $this->flashMessage('You have been signed in.', 'success');
           $this->redirect('Home:');
   	  } catch (Nette\Security\AuthenticationException $e) {
 	  	    $form->addError('Incorrect username or password.');
