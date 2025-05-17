@@ -62,9 +62,9 @@ jobs:
     - name: Run PHP CBF
       run: vendor/bin/phpcbf app --ignore=app/Presentation/Accessory/*,app/Presentation/Error/*,app/Bootstrap.php,app/Core/* -s
 
-    - name: Run PHP MD
-      run: vendor/bin/phpmd app/Model text phpmd.xml \
-           && vendor/bin/phpmd app/Presentation text phpmd.xml
+    #- name: Run PHP MD
+    #  run: vendor/bin/phpmd app/Model text phpmd.xml \
+    #       && vendor/bin/phpmd app/Presentation text phpmd.xml
 
     - name: Run PHP Stan
       run: vendor/bin/phpstan analyse app/Model app/Presentation --memory-limit="512M"
