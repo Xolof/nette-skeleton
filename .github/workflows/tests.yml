@@ -50,6 +50,9 @@ jobs:
     - name: Start Docker containers
       run: docker compose up -d
 
+    - name: Set filepermissions
+      run: chmod -R 777 temp && chmod -R 777 log
+
     - name: Run tests 
       run: composer test
 
