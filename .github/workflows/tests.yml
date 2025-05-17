@@ -56,9 +56,11 @@ jobs:
     - name: Run PHP CS Fixer
       run: vendor/bin/php-cs-fixer fix app/Model && vendor/bin/php-cs-fixer fix app/Presentation
 
-    - name: Run PHP CS and PHP CBF
-      run: vendor/bin/phpcs app --ignore=app/Presentation/Accessory/*,app/Presentation/Error/*,app/Bootstrap.php,app/Core/* -s \
-           && vendor/bin/phpcbf app --ignore=app/Presentation/Accessory/*,app/Presentation/Error/*,app/Bootstrap.php,app/Core/* -s
+    - name: Run PHP CS
+      run: vendor/bin/phpcs app --ignore=app/Presentation/Accessory/*,app/Presentation/Error/*,app/Bootstrap.php,app/Core/* -s
+
+    - name: Run PHP CBF
+      run: vendor/bin/phpcbf app --ignore=app/Presentation/Accessory/*,app/Presentation/Error/*,app/Bootstrap.php,app/Core/* -s
 
     - name: Run PHP MD
       run: vendor/bin/phpmd app/Model text cleancode \
