@@ -54,7 +54,7 @@ jobs:
       run: chmod -R 777 temp && chmod -R 777 log
 
     - name: Run PHP CS Fixer
-      run: vendor/bin/php-cs-fixer fix app/Model app/Presentation
+      run: vendor/bin/php-cs-fixer fix app/Model && vendor/bin/php-cs-fixer fix app/Presentation
 
     - name: Run PHP CS and PHP CBF
       run: vendor/bin/phpcs app --ignore=app/Presentation/Accessory/*,app/Presentation/Error/*,app/Bootstrap.php,app/Core/* -s \
