@@ -53,8 +53,22 @@ jobs:
     - name: Set filepermissions
       run: chmod -R 777 temp && chmod -R 777 log
 
-    - name: Run tests 
-      run: composer test
+    - name: Run PHP CS Fixer
+      run: vendor/bin/php-cs-fixer fix app/Model app/Presentation
+
+    - name: Run PHP CS and PHP CBF
+      run: vendor/bin/phpcs app --ignore=app/Presentation/Accessory/*,app/Presentation/Error/*,app/Bootstrap.php,app/Core/* -s \
+           && vendor/bin/phpcbf app --ignore=app/Presentation/Accessory/*,app/Presentation/Error/*,app/Bootstrap.php,app/Core/* -s
+
+    - name: Run PHP MD
+      run: vendor/bin/phpmd app/Model text cleancode \
+           && vendor/bin/phpmd app/Presentation text cleancode
+
+    - name: Run PHP Stan
+      run: vendor/bin/phpstan analyse app/Model app/Presentation --memory-limit="512M"
+
+    - name: Run Cypress End to End tests
+      run: cd cypress/ && npx cypress run; cd -
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
