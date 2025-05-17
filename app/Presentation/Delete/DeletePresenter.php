@@ -71,4 +71,3 @@ final class DeletePresenter extends Nette\Application\UI\Presenter
   		->setDefaults($post->toArray());
   }
 }
-
