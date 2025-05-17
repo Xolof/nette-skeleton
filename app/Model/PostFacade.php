@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use Nette;
+use \DateTime;
 
 final class PostFacade
 {
@@ -15,7 +16,7 @@ final class PostFacade
     {
         return $this->database
             ->table('posts')
-            ->where('created_at < ', new \DateTime)
+            ->where('created_at < ', new DateTime)
             ->order('created_at DESC');
     }
 }
