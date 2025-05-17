@@ -22,7 +22,8 @@ final class SignPresenter extends Presenter
 
         $form->onSuccess[] = $this->signInFormSucceeded(...);
 
-        $renderer = $form->getRenderer();
+        $renderer = new Nette\Forms\Rendering\DefaultFormRenderer();
+        $form->setRenderer($renderer);
         $renderer->wrappers['controls']['container'] = 'dl';
         $renderer->wrappers['pair']['container'] = null;
         $renderer->wrappers['label']['container'] = 'dt';
