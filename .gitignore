@@ -3,6 +3,7 @@ temp/*/*
 code-checker/
 log/*.log
 log/*.html
+!log/.gitkeep
 temp/cache/*
 !temp/cache/.gitkeep
 
