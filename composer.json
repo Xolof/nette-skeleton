@@ -19,8 +19,15 @@
 		"nette/utils": "^4.0",
 		"latte/latte": "^3.0",
 		"tracy/tracy": "^2.10",
-		"vlucas/phpdotenv": "^5.6"
+		"vlucas/phpdotenv": "^5.6",
+		"erusev/parsedown": "dev-fix_Implicitly_marking_parameter_as_nullable as 1.7.4"
 	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/Xolof/parsedown"
+		}
+    ],
 	"require-dev": {
 		"nette/tester": "^2.5",
 		"symfony/thanks": "^1",

@@ -3,6 +3,7 @@ namespace App\Presentation\Post;
 
 use Nette;
 use Nette\Application\UI\Form;
+use App\Presentation\Accessory\Markdowner;
 
 final class PostPresenter extends Nette\Application\UI\Presenter
 {
@@ -21,9 +22,29 @@ final class PostPresenter extends Nette\Application\UI\Presenter
             $this->error('Post not found');
         }
 
-        $this->template->post = $post;
-        $this->template->comments = $post->related('comments')
+        $markdowner = new Markdowner();
+
+        $commentsFromDb = $post->related('comments')
             ->order('created_at');
+
+        $comments = [];
+
+        foreach ($commentsFromDb as $comment) {
+            $comments[] = [
+                "name" => $comment->name,
+                "email" => $comment->email,
+                "content" => $markdowner->print($comment->content)
+            ];
+        };
+
+        $this->template->post = [
+            "id" => $post->id,
+            "title" => $post->title,
+            "created_at" => $post->created_at, // phpcs:ignore
+            "content" => $markdowner->print($post->content)
+        ];
+
+        $this->template->comments = $comments;
     }
 
     protected function createComponentCommentForm(): Form
