@@ -43,9 +43,10 @@ jobs:
     - name: Build the Javascript with NPM
       run: cd cypress && npm run build
 
-    - name: Prepare environment file
+    - name: Prepare environment files
       run: |
-        printf %s "${{ secrets.ENV_FILE_DEV }}" > .env
+        printf %s "${{ secrets.ENV_FILE_DEV }}" > .env && \
+        printf %s "${{ secrets.CONFIG_DEV }}" > config/env/dev.neon
 
     - name: Start Docker containers
       run: docker compose up -d
@@ -89,8 +90,9 @@ jobs:
         with:
           name: app
 
-      - name: Prepare environment file
+      - name: Prepare environment files
         run: |
+          printf %s "${{ secrets.CONFIG_PROD }}" > config/env/prod.neon && \
           printf %s "${{ secrets.ENV_FILE_PROD }}" > .env
 
       - name: Deploy with rsync
