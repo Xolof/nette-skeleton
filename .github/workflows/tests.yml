@@ -112,6 +112,7 @@ jobs:
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
+            mkdir ${{ secrets.DEPLOY_PATH }}log
             chown -R ${{ secrets.DEPLOY_USER }}:${{ secrets.DEPLOY_USER }} ${{ secrets.DEPLOY_PATH }}
             find ${{ secrets.DEPLOY_PATH }}  -type d -exec chmod 755 {} \;
             find ${{ secrets.DEPLOY_PATH }}  -type f -exec chmod 644 {} \;
