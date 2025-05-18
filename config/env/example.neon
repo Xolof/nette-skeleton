@@ -1,0 +1,5 @@
+database:
+	dsn: 'mysql:host=mysql;dbname=nettedb'
+	# dsn: 'mysql:host=localhost;dbname=nettedb'
+	user: 'user'
+	password: 'password'

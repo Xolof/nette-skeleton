@@ -1,17 +1,10 @@
 parameters:
 
-
 application:
 	errorPresenter:
 		4xx: Error:Error4xx
 		5xx: Error:Error5xx
 	mapping: App\Presentation\*\**Presenter
-
-
-database:
-	dsn: 'mysql:host=mysql;dbname=nettedb'
-	user: 'nette'
-	password: 'pass'
 
 
 latte:

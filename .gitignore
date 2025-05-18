@@ -6,4 +6,5 @@ log/*.html
 !log/.gitkeep
 temp/cache/*
 !temp/cache/.gitkeep
-
+.env
+config/env/*
