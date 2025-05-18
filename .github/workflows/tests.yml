@@ -43,9 +43,9 @@ jobs:
     - name: Build the Javascript with NPM
       run: cd cypress && npm run build
 
-    #- name: Prepare environment file
-    #  run: |
-    #    printf %s "${{ secrets.ENV_FILE }}" > .env
+    - name: Prepare environment file
+      run: |
+        printf %s "${{ secrets.ENV_FILE_DEV }}" > .env
 
     - name: Start Docker containers
       run: docker compose up -d
@@ -89,9 +89,9 @@ jobs:
         with:
           name: app
 
-      #- name: Prepare environment file
-      #  run: |
-      #    printf %s "${{ secrets.ENV_FILE }}" > .env
+      - name: Prepare environment file
+        run: |
+          printf %s "${{ secrets.ENV_FILE_PROD }}" > .env
 
       - name: Deploy with rsync
         uses: burnett01/rsync-deployments@7.0.1
