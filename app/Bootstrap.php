@@ -70,20 +70,12 @@ class Bootstrap
 
 	private function getEnvConfigFile(): string
 	{
-		switch (NETTE_ENV):
-			case "dev":
-				$envConfigFile = "dev.neon";
-				break;
-			case "staging":
-				$envConfigFile = "staging.neon";
-				break;
-			case "prod":
-				$envConfigFile = "prod.neon";
-				break;
-			default:
-				throw new Exception("Could not match the value of NETTE_ENV to any config file.");
-		endswitch;
-
-		return $envConfigFile;
+		return match(NETTE_ENV) {
+			"dev" => "dev.neon",
+			"prod" => "prod.neon",
+			default => throw new Exception(
+				"Could not match the value of NETTE_ENV to any config file."
+				)
+		};
 	}
 }
