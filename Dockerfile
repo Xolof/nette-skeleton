@@ -5,6 +5,8 @@ RUN docker-php-ext-install mysqli pdo_mysql
 # Update the package lists and install git
 RUN apk update && apk add --no-cache git
 
+RUN apk add patch
+
 # Install Composer globally
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
