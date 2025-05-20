@@ -1,0 +1,122 @@
+name: Tests
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.3
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Install Composer dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Install NPM dependencies
+      run: cd cypress && npm install
+
+    - name: Build the Javascript with NPM
+      run: cd cypress && npm run build
+
+    - name: Prepare environment files
+      run: |
+        printf %s "${{ secrets.ENV_FILE_DEV }}" > .env && \
+        printf %s "${{ secrets.CONFIG_DEV }}" > config/env/dev.neon
+
+    - name: Start Docker containers
+      run: docker compose up -d
+
+    - name: Set filepermissions
+      run: chmod -R 777 temp && chmod -R 777 log
+
+    - name: Run PHP CS Fixer
+      run: vendor/bin/php-cs-fixer fix app/Model && vendor/bin/php-cs-fixer fix app/Presentation
+
+    - name: Run PHP CS
+      run: vendor/bin/phpcs app --ignore=app/Presentation/Accessory/*,app/Presentation/Error/*,app/Bootstrap.php,app/Core/* -s
+
+    - name: Run PHP CBF
+      run: vendor/bin/phpcbf app --ignore=app/Presentation/Accessory/*,app/Presentation/Error/*,app/Bootstrap.php,app/Core/* -s
+
+    #- name: Run PHP MD
+    #  run: vendor/bin/phpmd app/Model text phpmd.xml \
+    #       && vendor/bin/phpmd app/Presentation text phpmd.xml
+
+    - name: Run PHP Stan
+      run: vendor/bin/phpstan analyse app/Model app/Presentation --memory-limit="512M"
+
+    - name: Run Cypress End to End tests
+      run: cd cypress/ && npx cypress run; cd -
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: app
+        path: |
+          ./*
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: app
+
+      - name: Prepare environment files
+        run: |
+          printf %s "${{ secrets.CONFIG_PROD }}" > config/env/prod.neon && \
+          printf %s "${{ secrets.ENV_FILE_PROD }}" > .env
+
+      - name: Deploy with rsync
+        uses: burnett01/rsync-deployments@7.0.1
+        with:
+          switches: -avzr --delete
+          path: .
+          remote_path: ${{ secrets.DEPLOY_PATH }}
+          remote_host: ${{ secrets.DEPLOY_HOST }}
+          remote_user: ${{ secrets.DEPLOY_USER }}
+          remote_key: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Set file permissions and run database migrations
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          script: |
+            mkdir ${{ secrets.DEPLOY_PATH }}log
+            chown -R ${{ secrets.DEPLOY_USER }}:${{ secrets.DEPLOY_USER }} ${{ secrets.DEPLOY_PATH }}
+            find ${{ secrets.DEPLOY_PATH }}  -type d -exec chmod 755 {} \;
+            find ${{ secrets.DEPLOY_PATH }}  -type f -exec chmod 644 {} \;
+            chmod -R 775 ${{ secrets.DEPLOY_PATH }}log
+            chmod -R 775 ${{ secrets.DEPLOY_PATH }}temp
+            chmod 600 ${{ secrets.DEPLOY_PATH }}.env
+

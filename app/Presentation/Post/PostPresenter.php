@@ -3,65 +3,88 @@ namespace App\Presentation\Post;
 
 use Nette;
 use Nette\Application\UI\Form;
+use App\Presentation\Accessory\Markdowner;
 
 final class PostPresenter extends Nette\Application\UI\Presenter
 {
-	public function __construct(
-		private Nette\Database\Explorer $database,
-	) {
-	}
-
-	public function renderShow(int $id): void
-	{
-		$post = $this->database
-			->table('posts')
-      ->get($id);
-
-    if (!$post) {
-      $this->error('Post not found');
+    public function __construct(
+        private Nette\Database\Explorer $database,
+    ) {
     }
 
-    $this->template->post = $post;
-    $this->template->comments = $post->related('comments')
-      ->order('created_at');
-	}
+    public function renderShow(int $id): void
+    {
+        $post = $this->database
+            ->table('posts')
+            ->get($id);
 
-  protected function createComponentCommentForm(): Form
-  {
-    $form = new Form;
+        if (!$post) {
+            $this->error('Post not found');
+        }
 
-    $form->addText('name', 'Your name:')
-      ->setRequired('Please enter your name.');
+        $markdowner = new Markdowner();
 
-    $form->addEmail('email', 'Email:');
+        $commentsFromDb = $post->related('comments')
+            ->order('created_at');
 
-    $form->addTextArea('content', 'Comment:')
-      ->setRequired('Please enter a comment.');
+        $comments = [];
 
-    $form->addSubmit('send', 'Add Comment');
+        foreach ($commentsFromDb as $comment) {
+            $comments[] = [
+                "name" => $comment->name,
+                "email" => $comment->email,
+                "content" => $markdowner->print($comment->content)
+            ];
+        };
 
-    $form->onSuccess[] = $this->commentFormSucceeded(...);
+        $this->template->post = [
+            "id" => $post->id,
+            "title" => $post->title,
+            "created_at" => $post->created_at, // phpcs:ignore
+            "content" => $markdowner->print($post->content)
+        ];
 
-    $renderer = new Nette\Forms\Rendering\DefaultFormRenderer();
-    $form->setRenderer($renderer);
-    $renderer->wrappers['controls']['container'] = 'dl';
-    $renderer->wrappers['pair']['container'] = null;
-    $renderer->wrappers['label']['container'] = 'dt';
-    $renderer->wrappers['control']['container'] = 'dd';
+        $this->template->comments = $comments;
+    }
 
-    return $form;
-  }
+    protected function createComponentCommentForm(): Form
+    {
+        $form = new Form;
 
-  private function commentFormSucceeded(\stdClass $data): void
-  {
-    $this->database->table('comments')->insert([
-      'post_id' => $this->getParameter('id'),
-      'name' => $data->name,
-      'content' => $data->content,
-      'email' => $data->email
-    ]);
+        $form->addText('name', 'Your name:')
+            ->setRequired('Please enter your name.');
 
-    $this->flashMessage('Comment added successfully.', 'success');
-    $this->redirect('this');
-  }
+        $form->addEmail('email', 'Email:');
+
+        $form->addTextArea('content', 'Comment:')
+            ->setRequired('Please enter a comment.');
+
+        $form->addSubmit('send', 'Add Comment');
+
+        $form->onSuccess[] = $this->commentFormSucceeded(...);
+
+        $renderer = new Nette\Forms\Rendering\DefaultFormRenderer();
+        $form->setRenderer($renderer);
+        $renderer->wrappers['controls']['container'] = 'dl';
+        $renderer->wrappers['pair']['container'] = null;
+        $renderer->wrappers['label']['container'] = 'dt';
+        $renderer->wrappers['control']['container'] = 'dd';
+
+        return $form;
+    }
+
+    private function commentFormSucceeded(\stdClass $data): void
+    {
+        $this->database->table('comments')->insert(
+            [
+                'post_id' => $this->getParameter('id'),
+                'name' => $data->name,
+                'content' => $data->content,
+                'email' => $data->email
+            ]
+        );
+
+        $this->flashMessage('Comment added successfully.', 'success');
+        $this->redirect('this');
+    }
 }

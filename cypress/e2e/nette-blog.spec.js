@@ -61,8 +61,8 @@ describe('Nette Blog Test Suite', () => {
     cy.reload();
     cy.get('section').find('a').contains('Edit').click();
     cy.reload();
-    cy.get('input[name="title"]').type(newTitle);
-    cy.get('textarea[name="content"]').type(newContent);
+    cy.get('input[name="title"]').clear().type(newTitle);
+    cy.get('textarea[name="content"]').clear().type(newContent);
     cy.get('input[type="submit"]').click();
     cy.reload();
     cy.get('.success').should('contain', 'Post published successfully.');

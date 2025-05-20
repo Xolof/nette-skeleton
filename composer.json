@@ -18,12 +18,24 @@
 		"nette/security": "^3.2",
 		"nette/utils": "^4.0",
 		"latte/latte": "^3.0",
-		"tracy/tracy": "^2.10"
+		"tracy/tracy": "^2.10",
+		"vlucas/phpdotenv": "^5.6",
+		"erusev/parsedown": "dev-fix_Implicitly_marking_parameter_as_nullable as 1.7.4"
 	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/Xolof/parsedown"
+		}
+    ],
 	"require-dev": {
 		"nette/tester": "^2.5",
 		"symfony/thanks": "^1",
-		"phpstan/phpstan-nette": "^2.0"
+		"phpstan/phpstan-nette": "^2.0",
+		"friendsofphp/php-cs-fixer": "^3.75",
+		"squizlabs/php_codesniffer": "^3.13",
+		"phpmd/phpmd": "^2.15",
+		"symplify/vendor-patches": "^11.4"
 	},
 	"autoload": {
 		"psr-4": {
@@ -33,7 +45,21 @@
 	"minimum-stability": "stable",
 	"config": {
 		"allow-plugins": {
-			"symfony/thanks": true
+			"symfony/thanks": true,
+			"cweagans/composer-patches": true
 		}
+	},
+  "scripts": {
+    "test": "./tests.sh",
+    "post-install-cmd": [
+      "cp ./tests.sh .git/hooks/pre-commit"
+    ]
+  },
+  "extra": {
+    "patches": {
+	  "nette/application": [
+	    "patches/nette-application-src-application-linkgenerator-php.patch"
+	  ]
 	}
+  }
 }
