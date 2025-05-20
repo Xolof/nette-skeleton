@@ -54,5 +54,12 @@
     "post-install-cmd": [
       "cp ./tests.sh .git/hooks/pre-commit"
     ]
+  },
+  "extra": {
+    "patches": {
+	  "nette/application": [
+	    "patches/nette-application-src-application-linkgenerator-php.patch"
+	  ]
+	}
   }
 }

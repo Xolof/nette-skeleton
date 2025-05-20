@@ -1,0 +1,13 @@
+--- /dev/null
++++ ../src/Application/LinkGenerator.php
+@@ -110,7 +110,9 @@
+ 				}
+ 			} elseif ($refPresenter) { // relative
+ 				[$module, , $sep] = Helpers::splitName($refPresenter->getName());
+-				$presenter = $module . $sep . $presenter;
++				if ($module !== "Error") {
++					$presenter = $module . $sep . $presenter;
++				}
+ 			}
+ 
+ 			try {
